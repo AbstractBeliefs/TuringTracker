@@ -48,7 +48,9 @@ coverage.xml
 # Django stuff:
 *.log
 *.pot
-settings.py # Replaced with settings.py.demo with secrets removed
+
+# Ignore secret files
+settings.py
 
 # Sphinx documentation
 docs/_build/
