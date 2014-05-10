@@ -9,9 +9,15 @@ class Shipment(models.Model):
     date = models.DateField("date shipment was prepared")
     shipmentOpen = models.BooleanField("shipment open to changes", default=True)
 
+    def __unicode__(self):
+        return u"Shipment %d opened %s" %(self.id, str(self.date))
+
 class Pallet(models.Model):
     shipment = models.ForeignKey(Shipment, verbose_name="shipment this pallet is part of")
-    number = models.IntegerField("pallet number")
+    number = models.IntegerField()
+
+    def __unicode__(self):
+        return u"Pallet %d of shipment %d" %(self.number, self.shipment.id)
 
 ################################
 # People classes
@@ -22,10 +28,16 @@ class Donor(models.Model):
     email = models.CharField("donor email address", max_length=150, blank=True)
     phone = models.CharField("donor phone number", max_length=20, blank=True)
 
+    def __unicode__(self):
+        return self.name
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)    # 1-2-1 relationship to related user
     phone = models.CharField("volunteer phone number", max_length=20, blank=True)
     area = models.CharField("volunteers area of responsibility", max_length=100, blank=True)
+
+    def __unicode__(self):
+        return self.user.username
 
 
 ################################
@@ -75,11 +87,17 @@ class Device(models.Model):
     notes = models.TextField("notes", max_length=500, blank=True)
     license = models.TextField("license tag", max_length=500, blank=True)
 
+    def __unicode__(self):
+        return u"#%d: %s %s" %(self.id, self.manufacturer, self.model)
+
 class DevLogEntry(models.Model):     # This class logs changes to the device class by user and change
     device = models.ForeignKey(Device)
     user = models.ForeignKey(User)
     entryTime = models.DateTimeField(auto_now=True)
     desc = models.CharField(max_length=250)
+
+    def __unicode__(self):
+        return u"Change to %s by %s: %s" %(self.device.id, self.user.username, self.desc)
 
 class ActionPoint(models.Model):    # This class provides yes/no action points, eg. "Data destruction certificate completed"
     device = models.ForeignKey(Device)
@@ -87,3 +105,6 @@ class ActionPoint(models.Model):    # This class provides yes/no action points, 
     completer = models.ForeignKey(User, related_name='completer', blank=True, null=True)
     description = models.CharField(max_length=150)
     complete = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u"Action point for device %d: %s" %(self.device.id, self.description)
