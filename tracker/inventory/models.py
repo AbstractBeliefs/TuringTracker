@@ -14,7 +14,7 @@ class Shipment(models.Model):
 
 class Pallet(models.Model):
     shipment = models.ForeignKey(Shipment, verbose_name="shipment this pallet is part of")
-    number = models.IntegerField()
+    number = models.IntegerField("pallet number")
 
     def __unicode__(self):
         return u"Pallet %d of shipment %d" %(self.number, self.shipment.id)
