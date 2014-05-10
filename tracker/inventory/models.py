@@ -66,7 +66,7 @@ class Device(models.Model):
         (Shipped, "Shipped out"),
     )
 
-    pallet = models.ForeignKey(Pallet, verbose_name="pallet this device is shipping on", blank=True)    # May be blank as shipping happens well after initial registration
+    pallet = models.ForeignKey(Pallet, verbose_name="pallet this device is shipping on", blank=True, null=True)    # May be null as shipping happens well after initial registration
     donor = models.ForeignKey(Donor, verbose_name="donor this device came from")
     manufacturer = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
@@ -75,7 +75,7 @@ class Device(models.Model):
     notes = models.TextField("notes", max_length=500, blank=True)
     license = models.TextField("license tag", max_length=500, blank=True)
 
-class LogEntries(models.Model):     # This class logs changes to the device class by user and change
+class DevLogEntry(models.Model):     # This class logs changes to the device class by user and change
     device = models.ForeignKey(Device)
     user = models.ForeignKey(User)
     entryTime = models.DateTimeField(auto_now=True)
@@ -84,6 +84,6 @@ class LogEntries(models.Model):     # This class logs changes to the device clas
 class ActionPoint(models.Model):    # This class provides yes/no action points, eg. "Data destruction certificate completed"
     device = models.ForeignKey(Device)
     submitter = models.ForeignKey(User, related_name='submitter')
-    completer = models.ForeignKey(User, related_name='completer', blank=True)
+    completer = models.ForeignKey(User, related_name='completer', blank=True, null=True)
     description = models.CharField(max_length=150)
     complete = models.BooleanField(default=False)
