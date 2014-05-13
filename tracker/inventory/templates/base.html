@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <title> Turing Inventory - {% block title %}{% endblock %} </title>
+    {% endblock head %}
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">   <!-- Navbar row -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">The Turing Trust</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href='#'>Logout</a>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="row">   <!-- Content row -->
+        <div class="col-md-2">
+            <div class="well well-sm">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href='{% url 'index' %}'> Summary </a></li>
+                    <hr />
+                    <li><a href='#'> Volunteers </a></li>
+                    <hr />
+                    <li><a href='#'> Devices </a></li>
+                    <li><a href='#'> Donors </a></li>
+                    <li><a href='#'> Shipments </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
