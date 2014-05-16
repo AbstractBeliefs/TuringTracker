@@ -19,4 +19,10 @@ def index(request):
     return render(request, "index.html", context)
 
 def deviceList(request):
-    return render(request, "deviceList.html")
+    context = {
+        'openDevices': Device.objects.exclude(deviceState=Device.Shippable).exclude(deviceState=Device.Shipped),
+        'shippableDevices': Device.objects.filter(deviceState=Device.Shippable),
+        'shippedDevices': Device.objects.filter(deviceState=Device.Shipped),
+    }
+
+    return render(request, "deviceList.html", context)
