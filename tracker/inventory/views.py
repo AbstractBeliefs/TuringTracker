@@ -14,6 +14,7 @@ def index(request):
         "stocked": stockedDevices,
         "shippable": min(readyDevices, 100),
         "unshippable": min(stockedDevices - readyDevices, 100-min(readyDevices, 100)),
+        "shipped": Device.objects.filter(deviceState=Device.Shipped).count(),
     }
 
     return render(request, "index.html", context)
